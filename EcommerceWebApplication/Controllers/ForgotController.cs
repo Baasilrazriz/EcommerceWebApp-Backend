@@ -18,18 +18,18 @@ namespace EcommerceWebApplication.Controllers
             _context = context;
             _service = service;
         }
-        [HttpPost]
-        public async Task<IActionResult> ForgotPassword([FromBody] LoginDto loginDto)
+        [HttpPost("ForgotController")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotDto forgotDto)
         {
             // Check if the username exists in the database
-            var userExists = await _service.DoesUserExist(loginDto.Username);
+            var userExists = await _service.DoesUserExist(forgotDto.Username);
             if (!userExists)
             {
                 return NotFound(new { Message = "User not found." });
             }
 
             // If user exists, initiate the password recovery process
-            var recoveryResult = await _service.InitiatePasswordRecovery(loginDto.Username);
+            var recoveryResult = await _service.InitiatePasswordRecovery(forgotDto.Username);
             if (recoveryResult)
             {
                 return Ok(new { Message = "Password recovery initiated. Please check your email for further instructions." });

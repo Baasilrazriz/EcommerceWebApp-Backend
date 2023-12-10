@@ -1,12 +1,20 @@
-﻿using EcommerceWebApplication.Data;
+﻿using Azure.Core;
+using EcommerceWebApplication.Data;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
+using System.Net;
 
 namespace EcommerceWebApplication.Service
 {
     public class ForgotService
     {
         private readonly ApplicationDbContext _context;
-        private readonly IEmailService _emailService;
+        protected EmailService _emailService;
+        private const string FromEmail = "baasil86805@gmail.com";
+        private const string FromEmailPassword = "jimf vfih dzee cvfn"; // Use App Password if 2FA is enabled
+
 
         public ForgotService(ApplicationDbContext context)
         {
@@ -21,6 +29,10 @@ namespace EcommerceWebApplication.Service
             var validuser = await _context.ApplicationUsers
              .FromSqlRaw("SELECT * FROM ApplicationUsers WHERE Username = {0}", username)
              .FirstOrDefaultAsync();
+            if(validuser == null)
+            {
+                throw new ArgumentException("User doesnot exist");
+            }
             return true;
            
         }
@@ -40,36 +52,66 @@ namespace EcommerceWebApplication.Service
                     var otp = GenerateRandomOTP();
 
                     // Send the OTP to the user's email
-                    var emailSent = await SendOTPViaEmail(user.Email, otp);
-                    return emailSent;
+                    await SendOTPViaEmail(user.Email, otp);
+                    
                 }
             }
             // Return false if user does not exist or username is null/empty
-            return false;
+            return true;
         }
         private string GenerateRandomOTP()
         {
             var random = new Random();
-            // Generate a 6 digit OTP
-            return random.Next(100000, 999999).ToString();
+           
+            return random.Next(1000, 9999).ToString();
         }
         private async Task<bool> SendOTPViaEmail(string email, string otp)
         {
-            // Use your email service to send the OTP
-            // The implementation of this method will depend on how your email service is set up
-            try
-            {
+            
+            if(email==null && otp ==null)
+            { 
+                throw new ArgumentException("content is null");
+                
+            }
+            
                 var subject = "Your Password Recovery OTP";
                 var content = $"Your OTP for password recovery is: {otp}";
-                await _emailService.SendEmailAsync(email, subject, content);
-                return true;
-            }
-            catch (Exception ex)
+
+            using (var client = new SmtpClient("smtp.gmail.com", 587))
             {
-                // Log the exception
-                // Consider logging the exception here
-                return false;
+                client.EnableSsl = true;
+                client.Credentials = new NetworkCredential(FromEmail, FromEmailPassword);
+
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress(FromEmail),
+                    Subject = subject,
+                    Body = content,
+                    IsBodyHtml = false
+                };
+
+                mailMessage.To.Add(email);
+
+                try
+                {
+                    await client.SendMailAsync(mailMessage);
+                }
+                catch (SmtpException ex)
+                {
+                    // Handle SMTP exceptions here
+                    throw new InvalidOperationException("Error sending email.", ex);
+                }
+                catch (Exception ex)
+                {
+                    // Handle other exceptions here
+                    throw new InvalidOperationException("An error occurred.", ex);
+                }
             }
+      
+            return true;
+               
+            
+            
         }
     }
 }

@@ -14,6 +14,8 @@ namespace EcommerceWebApplication.Data
             optionsBuilder.UseSqlServer("Data Source=shahood-rehan;Initial Catalog=ECommerceWebApp;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
         }
         public DbSet<ApplicationUsers> ApplicationUsers { get; set; }
+
+        public DbSet<UserModel> UserModels { get; set; }
     }
 
 }

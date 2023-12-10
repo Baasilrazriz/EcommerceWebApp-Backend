@@ -12,6 +12,8 @@ namespace EcommerceWebApplication.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
+
+        private readonly ApplicationDbContext _context;
         protected LoginService _loginService;
         public AuthController(ApplicationDbContext context, LoginService loginService)
         {
