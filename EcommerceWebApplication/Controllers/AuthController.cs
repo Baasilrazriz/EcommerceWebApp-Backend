@@ -39,9 +39,6 @@ namespace EcommerceWebApplication.Controllers
                 return BadRequest(result.ErrorMessage);
             }
 
-
-
-
         }
     }
 
