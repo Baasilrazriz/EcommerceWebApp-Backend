@@ -25,7 +25,7 @@ builder.Services.AddCors(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ApplicationDbContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=shahood-rehan;Initial Catalog=ECommerceWebApp;Integrated Security=True;Encrypt=True;Trust Server Certificate=True")));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=shahood-rehan;Initial Catalog=ECommerceWebApplication;Integrated Security=True;Trust Server Certificate=True")));
 
 var app = builder.Build();
 

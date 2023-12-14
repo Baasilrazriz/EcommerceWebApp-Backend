@@ -1,7 +1,6 @@
 ﻿using EcommerceWebApplication.Data;
 using EcommerceWebApplication.Service;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace EcommerceWebApplication.Controllers
 {

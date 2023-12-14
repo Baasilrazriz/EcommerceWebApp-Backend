@@ -15,7 +15,6 @@ namespace EcommerceWebApplication.Service
         public LoginService(ApplicationDbContext context)
         {
             _context = context;
-            // Initialize key and IV when the service is created
             
         }
 
@@ -23,16 +22,18 @@ namespace EcommerceWebApplication.Service
         {
             var user = await _context.ApplicationUsers
                 .FirstOrDefaultAsync(u => u.UserName == loginDto.Username);
-
-            if (user != null)
+            if(user != null)
             {
-                if (user.Password == loginDto.Password)
+                AuthenticationService authService = new AuthenticationService();
+                string storedHash = user.Password;
+                string providedPassword = loginDto.Password;
+                bool isVerified = authService.VerifyPassword(storedHash, providedPassword);
+                if (isVerified)
                 {
                     return new LoginResult { IsSuccess = true, ValidUser = user };
                 }
             }
-
-            return new LoginResult { IsSuccess = false, ErrorMessage = "Invalid password" };
+         return new LoginResult { IsSuccess = false, ErrorMessage = "Invalid password" };
         }
     }
 }

@@ -25,7 +25,8 @@ namespace EcommerceWebApplication.Service
             {
                 try 
                 {
-                    
+                    string password = userDto.password;
+                    string hashedPassword = HashingUtilities.HashPassword(password);
                     byte[] imageBytes = null;
                     if (!string.IsNullOrWhiteSpace(Convert.ToBase64String(userDto.image)))
                     {
@@ -44,16 +45,15 @@ namespace EcommerceWebApplication.Service
                         gender = userDto.gender,
                         dob = userDto.dob,
                         age = userDto.age,
-                        role = userDto.role,
                         username = userDto.username,
-                        password = userDto.password,
+                        password = hashedPassword,
                         image = imageBytes // Assign the byte array here
                     };
                     var newuser = new ApplicationUsers
                     {
                         UserName = userDto.username,
                         Email = userDto.email,
-                        Password= userDto.password,
+                        Password= hashedPassword,
 
                     };
                     _context.ApplicationUsers.Add(newuser);
