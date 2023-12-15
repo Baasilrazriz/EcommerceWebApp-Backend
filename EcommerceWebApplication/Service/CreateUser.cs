@@ -54,7 +54,7 @@ namespace EcommerceWebApplication.Service
                         UserName = userDto.username,
                         Email = userDto.email,
                         Password= hashedPassword,
-
+                        Role = "User"   
                     };
                     _context.ApplicationUsers.Add(newuser);
                     _context.UserModels.Add(newUser);

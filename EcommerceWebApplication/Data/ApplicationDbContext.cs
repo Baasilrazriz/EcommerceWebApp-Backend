@@ -19,7 +19,8 @@ namespace EcommerceWebApplication.Data
         public DbSet<ProductModel> ProductModels { get; set; }
         public DbSet<WishlistModel> WishlistModels { get; set;}
         public DbSet<OrderModel> OrderModels { get; set; }
-
+        public DbSet<AdminModel> AdminModels { get; set; }
+        public DbSet<SellerModel> SellerModels { get; set; }
     }
 
 }
