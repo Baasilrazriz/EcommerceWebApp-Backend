@@ -21,21 +21,38 @@ public class UpdateUserService
         {
             return false; // User not found
         }
+        using (var transaction = await _dbContext.Database.BeginTransactionAsync())
+        {
+            try
+            {
+                string password = updatedUserDto.password;
+                string hashedPassword = HashingUtilities.HashPassword(password);
+                byte[] imageBytes = null;
+                if (!string.IsNullOrWhiteSpace(Convert.ToBase64String(updatedUserDto.image)))
+                {
+                    imageBytes = Convert.FromBase64String(Convert.ToBase64String(updatedUserDto.image));
+                }
 
-        // Update the user's properties with the values from updatedUserDto
-        user.FirstName = updatedUserDto.FirstName;
-        user.LastName = updatedUserDto.LastName;
-        user.address = updatedUserDto.address;
-        user.city = updatedUserDto.city;
-        user.country = updatedUserDto.country;
-        user.phoneNumber = updatedUserDto.phoneNumber;
-        user.email = updatedUserDto.email;
-        user.gender = updatedUserDto.gender;
-        user.dob = updatedUserDto.dob;
-        user.age = updatedUserDto.age;  
-        user.username = updatedUserDto.username;
-        user.password = updatedUserDto.password;
-        user.image = updatedUserDto.image;
+                // Update the user's properties with the values from updatedUserDto
+                user.FirstName = updatedUserDto.FirstName;
+                user.LastName = updatedUserDto.LastName;
+                user.address = updatedUserDto.address;
+                user.city = updatedUserDto.city;
+                user.country = updatedUserDto.country;
+                user.phoneNumber = updatedUserDto.phoneNumber;
+                user.email = updatedUserDto.email;
+                user.gender = updatedUserDto.gender;
+                user.dob = updatedUserDto.dob;
+                user.age = updatedUserDto.age;
+                user.username = updatedUserDto.username;
+                user.password = updatedUserDto.password;
+                user.image = updatedUserDto.image;
+            }
+            catch
+            {
+                transaction.Rollback();
+            }
+        }
 
         try
         {

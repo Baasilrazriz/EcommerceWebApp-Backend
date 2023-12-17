@@ -6,12 +6,13 @@ namespace EcommerceWebApplication.Service
     public class CreateAdmin
     {
         private readonly ApplicationDbContext _context;
-     
+
         public CreateAdmin(ApplicationDbContext context)
         {
             _context = context;
         }
-        public async Task<AdminModel> CreateAdminAsync(AdminDto adminDto) {
+        public async Task<AdminModel> CreateAdminAsync(AdminDto adminDto)
+        {
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
                 try
@@ -39,7 +40,7 @@ namespace EcommerceWebApplication.Service
                         Age = adminDto.Age,
                         username = adminDto.username,
                         password = hashedPassword,
-                        Image= imageBytes
+                        Image = imageBytes
 
                     };
                     var newadmin = new ApplicationUsers
@@ -58,8 +59,9 @@ namespace EcommerceWebApplication.Service
                 }
                 catch (Exception ex)
                 {
-
+                    transaction.Rollback();
                 }
+                throw new InvalidOperationException("Admin creation failed.");
             }
         }
 

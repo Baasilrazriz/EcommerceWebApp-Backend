@@ -9,6 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<LoginService>();
 builder.Services.AddScoped<ForgotService>();
 builder.Services.AddScoped<CreateUser>();
+builder.Services.AddScoped<CreateAdmin>();
+builder.Services.AddScoped<CreateRider>();
+builder.Services.AddScoped<CreateSeller>();
+builder.Services.AddScoped<CreateUser>();
+builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<UpdateAdminService>();
+builder.Services.AddScoped<UpdateSellerService>();
+builder.Services.AddScoped<UpdateUserService>();
+
+
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>

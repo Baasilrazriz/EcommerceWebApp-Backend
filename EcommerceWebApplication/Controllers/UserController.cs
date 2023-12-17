@@ -87,11 +87,11 @@ namespace EcommerceWebApplication.Controllers
                 return NotFound();
             }
 
-            _context.AdminModels.Remove(user);
+            _context.UserModels.Remove(user);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
     }
 }
-}
+
