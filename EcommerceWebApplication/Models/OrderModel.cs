@@ -1,7 +1,11 @@
-﻿namespace EcommerceWebApplication.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EcommerceWebApplication.Models
 {
     public class OrderModel
     {
+        [Key]
+        public int Id { get; set; }
         public int OrderID{ get; set; }
         public int UserID { get; set; }
         public string Status { get; set; }

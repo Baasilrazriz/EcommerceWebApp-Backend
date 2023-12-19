@@ -12,7 +12,7 @@ namespace EcommerceWebApplication.Models
         public string Description { get; set; }
         
         public int Stock { get; set; }
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
         public double Discount { get; set; }
         //foreign keys
         public int CategoryID { get; set; }

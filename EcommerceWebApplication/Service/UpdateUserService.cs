@@ -27,11 +27,7 @@ public class UpdateUserService
             {
                 string password = updatedUserDto.password;
                 string hashedPassword = HashingUtilities.HashPassword(password);
-                byte[] imageBytes = null;
-                if (!string.IsNullOrWhiteSpace(Convert.ToBase64String(updatedUserDto.image)))
-                {
-                    imageBytes = Convert.FromBase64String(Convert.ToBase64String(updatedUserDto.image));
-                }
+                
 
                 // Update the user's properties with the values from updatedUserDto
                 user.FirstName = updatedUserDto.FirstName;

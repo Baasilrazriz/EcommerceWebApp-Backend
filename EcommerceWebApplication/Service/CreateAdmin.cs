@@ -12,7 +12,7 @@ namespace EcommerceWebApplication.Service
             _context = context;
         }
         public async Task<AdminModel> CreateAdminAsync(AdminDto adminDto)
-        {
+        {   
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
                 try
@@ -20,10 +20,13 @@ namespace EcommerceWebApplication.Service
                     string password = adminDto.password;
                     string hashedPassword = HashingUtilities.HashPassword(password);
                     byte[] imageBytes = null;
-                    if (!string.IsNullOrWhiteSpace(Convert.ToBase64String(adminDto.Image)))
-                    {
-                        imageBytes = Convert.FromBase64String(Convert.ToBase64String(adminDto.Image));
-                    }
+                    //if (!string.IsNullOrWhiteSpace(Convert.ToBase64String(adminDto.Image)))
+                    //{
+                    //    imageBytes = Convert.FromBase64String(Convert.ToBase64String(adminDto.Image));
+    
+
+                    ////}
+                    var image = Convert.ToString(adminDto.Image);
 
                     var newAdmin = new AdminModel
                     {
@@ -40,7 +43,7 @@ namespace EcommerceWebApplication.Service
                         Age = adminDto.Age,
                         username = adminDto.username,
                         password = hashedPassword,
-                        Image = imageBytes
+                        Image = adminDto.Image,
 
                     };
                     var newadmin = new ApplicationUsers

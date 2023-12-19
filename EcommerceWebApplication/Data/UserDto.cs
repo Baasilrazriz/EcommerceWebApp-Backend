@@ -15,6 +15,6 @@
         public int age { get; set; }
         public string username { get; set; }
         public string password { get; set; }
-        public byte[] image { get; set; }
+        public string image { get; set; }
     }
 }

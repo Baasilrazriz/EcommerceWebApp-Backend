@@ -20,7 +20,7 @@ namespace EcommerceWebApplication.Models
 
         [MaxLength(256)]
         public string password { get; set; }
-        public byte[] image {  get; set; }
+        public string image {  get; set; }
 
 
     }

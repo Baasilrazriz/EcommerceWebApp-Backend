@@ -20,11 +20,7 @@ namespace EcommerceWebApplication.Service
                 {
                     string password = sellerDto.password;
                     string hashedPassword = HashingUtilities.HashPassword(password);
-                    byte[] imageBytes = null;
-                    if (!string.IsNullOrWhiteSpace(Convert.ToBase64String(sellerDto.Image)))
-                    {
-                        imageBytes = Convert.FromBase64String(Convert.ToBase64String(sellerDto.Image));
-                    }
+                    
                     var newSeller = new SellerModel
                     {
                         FirstName = sellerDto.FirstName,
@@ -41,7 +37,7 @@ namespace EcommerceWebApplication.Service
                         Age = sellerDto.Age,
                         username = sellerDto.username,
                         password = sellerDto.password,
-                        Image = imageBytes
+                        Image = Convert.ToString(sellerDto.Image),  
                     };
 
 

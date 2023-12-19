@@ -26,11 +26,7 @@ namespace EcommerceWebApplication.Service
                 {
                     string password = updatedSellerDto.password;
                     string hashedPassword = HashingUtilities.HashPassword(password);
-                    byte[] imageBytes = null;
-                    if (!string.IsNullOrWhiteSpace(Convert.ToBase64String(updatedSellerDto.Image)))
-                    {
-                        imageBytes = Convert.FromBase64String(Convert.ToBase64String(updatedSellerDto.Image));
-                    }
+                   
 
 
                     seller.FirstName = updatedSellerDto.FirstName;
@@ -47,7 +43,7 @@ namespace EcommerceWebApplication.Service
                     seller.Age = updatedSellerDto.Age;
                     seller.username = updatedSellerDto.username;
                     seller.password = hashedPassword;
-                    seller.Image = imageBytes;
+                    seller.Image = Convert.ToString(updatedSellerDto.Image);
 
                 }
                 catch (Exception ex)

@@ -62,7 +62,7 @@ namespace EcommerceWebApplication.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAdmin(int id, [FromBody] AdminDto updatedAdmin)
         {
-            if (id != updatedAdmin.AdminID)
+            if (id == null)
             {
                 return BadRequest();
             }
@@ -74,7 +74,7 @@ namespace EcommerceWebApplication.Controllers
                 return NotFound(); 
             }
 
-            return NoContent(); 
+            return Ok(200);
         }
 
         [HttpDelete("{id}")]

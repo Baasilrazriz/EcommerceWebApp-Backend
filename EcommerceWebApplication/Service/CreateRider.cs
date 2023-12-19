@@ -18,11 +18,7 @@ namespace EcommerceWebApplication.Service
                 {
                     string password = riderDto.password;
                     string hashedPassword = HashingUtilities.HashPassword(password);
-                    byte[] imageBytes = null;
-                    if (!string.IsNullOrWhiteSpace(Convert.ToBase64String(riderDto.Image)))
-                    {
-                        imageBytes = Convert.FromBase64String(Convert.ToBase64String(riderDto.Image));
-                    }
+                   
                     var newRider = new RiderModel
                     {
                         Firstname = riderDto.Firstname,
@@ -38,7 +34,7 @@ namespace EcommerceWebApplication.Service
                         Age = riderDto.Age,
                         username = riderDto.username,
                         password = riderDto.password,
-                        Image = imageBytes
+                        Image = Convert.ToString(riderDto.Image)
                     };
                     var newrider = new ApplicationUsers
                     {

@@ -24,6 +24,6 @@ namespace EcommerceWebApplication.Models
         public string username { get; set; }
         [MaxLength(256)]
         public string password { get; set; }
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
     }
 }

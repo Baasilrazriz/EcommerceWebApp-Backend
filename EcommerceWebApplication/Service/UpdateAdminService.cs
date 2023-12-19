@@ -26,12 +26,12 @@ namespace EcommerceWebApplication.Service
                 try
                 {
                     string password = updatedAdminDto.password;
-                    string hashedPassword = HashingUtilities.HashPassword(password);
-                    byte[] imageBytes = null;
-                    if (!string.IsNullOrWhiteSpace(Convert.ToBase64String(updatedAdminDto.Image)))
-                    {
-                        imageBytes = Convert.FromBase64String(Convert.ToBase64String(updatedAdminDto.Image));
-                    }
+                    string hashedpassword = HashingUtilities.HashPassword(password);
+                    //byte[] imageBytes = null;
+                    //if (!string.IsNullOrWhiteSpace(Convert.ToBase64String(updatedAdminDto.Image)))
+                    //{
+                    //    imageBytes = Convert.FromBase64String(Convert.ToBase64String(updatedAdminDto.Image));
+                    //}
 
 
                     admin.FirstName = updatedAdminDto.FirstName;
@@ -46,8 +46,8 @@ namespace EcommerceWebApplication.Service
                     admin.Dob = updatedAdminDto.Dob;
                     admin.Age = updatedAdminDto.Age;
                     admin.username = updatedAdminDto.username;
-                    admin.password = hashedPassword;
-                    admin.Image = imageBytes;
+                    admin.password = hashedpassword;
+                    admin.Image = updatedAdminDto.Image;
 
                 }
                 catch (Exception ex)

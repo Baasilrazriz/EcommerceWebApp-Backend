@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Buffers.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace EcommerceWebApplication.Data
 {
@@ -18,7 +19,7 @@ namespace EcommerceWebApplication.Data
         public int Age { get; set; }
         public string username { get; set; }
         public string password { get; set; }
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
     }
 }
-}
+

@@ -19,6 +19,6 @@ namespace EcommerceWebApplication.Data
         public int Age { get; set; }
         public string username { get; set; }
         public string password { get; set; }
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
     }
 }
