@@ -53,8 +53,16 @@ namespace EcommerceWebApplication.Controllers
             {
                 return NotFound();
             }
+            var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.UserName == rider.username);
+
+            // Check if the user exists
+            if (user == null)
+            {
+                return NotFound("Associated user not found.");
+            }
 
             _context.RiderModels.Remove(rider);
+            _context.ApplicationUsers.Remove(user);
             await _context.SaveChangesAsync();
 
             return NoContent();

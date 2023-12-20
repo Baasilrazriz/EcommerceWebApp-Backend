@@ -23,5 +23,5 @@ namespace EcommerceWebApplication.Models
         public string image {  get; set; }
 
 
-    }
+    }   
 }

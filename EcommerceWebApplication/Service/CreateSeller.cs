@@ -31,7 +31,7 @@ namespace EcommerceWebApplication.Service
                         PhoneNumber = sellerDto.PhoneNumber,
                         Email = sellerDto.Email,
                         Cnic = sellerDto.Cnic,
-                        Status = "Not verified",
+                        Status = sellerDto.Status,  
                         Gender = sellerDto.Gender,
                         Dob = sellerDto.Dob,
                         Age = sellerDto.Age,

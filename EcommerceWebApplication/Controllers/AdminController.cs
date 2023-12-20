@@ -71,7 +71,7 @@ namespace EcommerceWebApplication.Controllers
 
             if (!isUpdateSuccessful)
             {
-                return NotFound(); 
+                return NotFound();
             }
 
             return Ok(200);
@@ -80,18 +80,30 @@ namespace EcommerceWebApplication.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAdmin(int id)
         {
- 
             var admin = await _context.AdminModels.FindAsync(id);
-
             if (admin == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
 
+            // Find the corresponding user in the ApplicationUsers table
+            var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.UserName == admin.username);
+
+            // Check if the user exists
+            if (user == null)
+            {
+                return NotFound("Associated user not found.");
+            }
+
+            // Remove the admin and the associated user
             _context.AdminModels.Remove(admin);
+            _context.ApplicationUsers.Remove(user);
+
+            // Save the changes to the database
             await _context.SaveChangesAsync();
 
-            return NoContent(); 
+            return NoContent();
         }
+
     }
 }

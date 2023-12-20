@@ -56,7 +56,7 @@ namespace EcommerceWebApplication.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSeller(int id, [FromBody] SellerDto updatedSeller)
         {
-            if (id != updatedSeller.SellerID)
+            if (id == null)
             {
                 return BadRequest();
             }
@@ -80,8 +80,17 @@ namespace EcommerceWebApplication.Controllers
             {
                 return NotFound();
             }
+            var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.UserName == seller.username);
+
+            // Check if the user exists
+            if (user == null)
+            {
+                return NotFound("Associated user not found.");
+            }
+
 
             _context.SellerModels.Remove(seller);
+            _context.ApplicationUsers.Remove(user);
             await _context.SaveChangesAsync();
 
             return NoContent();

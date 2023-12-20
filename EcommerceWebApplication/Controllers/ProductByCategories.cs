@@ -1,19 +1,15 @@
 ﻿using EcommerceWebApplication.Data;
-using EcommerceWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EcommerceWebApplication.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProductController : ControllerBase
+    public class ProductByCategories : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-
-        public ProductController(ApplicationDbContext context)
+        public ProductByCategories(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -49,4 +45,5 @@ namespace EcommerceWebApplication.Controllers
             return Ok(products);
         }
     }
+
 }

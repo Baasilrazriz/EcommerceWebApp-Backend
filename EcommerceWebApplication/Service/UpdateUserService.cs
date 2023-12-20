@@ -42,7 +42,7 @@ public class UpdateUserService
                 user.age = updatedUserDto.age;
                 user.username = updatedUserDto.username;
                 user.password = updatedUserDto.password;
-                user.image = updatedUserDto.image;
+                user.image = Convert.ToString(updatedUserDto.image);
             }
             catch
             {

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EcommerceWebApplication.Data
 {
-    public class AdminDto
+    public class AdminDto   
     {
         public int AdminID { get; set; }
         public string FirstName { get; set; }

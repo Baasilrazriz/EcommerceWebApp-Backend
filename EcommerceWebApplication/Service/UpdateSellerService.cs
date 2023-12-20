@@ -28,7 +28,6 @@ namespace EcommerceWebApplication.Service
                     string hashedPassword = HashingUtilities.HashPassword(password);
                    
 
-
                     seller.FirstName = updatedSellerDto.FirstName;
                     seller.LastName = updatedSellerDto.LastName;
                     seller.Address = updatedSellerDto.Address;
@@ -37,7 +36,7 @@ namespace EcommerceWebApplication.Service
                     seller.PhoneNumber = updatedSellerDto.PhoneNumber;
                     seller.Email = updatedSellerDto.Email;
                     seller.Cnic = updatedSellerDto.Cnic;
-                    seller.Status = seller.Status;
+                    seller.Status = updatedSellerDto.Status;
                     seller.Gender = updatedSellerDto.Gender;
                     seller.Dob = updatedSellerDto.Dob;
                     seller.Age = updatedSellerDto.Age;

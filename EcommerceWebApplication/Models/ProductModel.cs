@@ -16,7 +16,7 @@ namespace EcommerceWebApplication.Models
         public double Discount { get; set; }
         //foreign keys
         public int CategoryID { get; set; }
-        public string VendorID { get; set; }
+        public int VendorID { get; set; }
 
     }
 }
