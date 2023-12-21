@@ -18,57 +18,50 @@ namespace EcommerceWebApplication.Service
 
         public async Task<ProductModel> CreateProductAsync(ProductDto productDto)
         {
-            if (productDto == null)
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            // Find the category by name
+            var category = await _context.CategoryModels
+                           .FirstOrDefaultAsync(c => c.Name == productDto.Categoryname);
+
+            var vendor = await _context.SellerModels
+                .FirstOrDefaultAsync(v => v.FirstName == productDto.Vendorname);
+
+            if (category == null)
             {
-                throw new ArgumentNullException(nameof(productDto));
+                // Handle the case where the category is not found
+                throw new ArgumentException("You should select a valid category");
+            }
+            if (vendor == null)
+            {
+                throw new ArgumentException("You should enter a registered vendor");
             }
 
-            using (var transaction = await _context.Database.BeginTransactionAsync())
+            try
             {
-                // Find the category by name
-                var category = await _context.CategoryModels
-                               .FirstOrDefaultAsync(c => c.Name == productDto.Categoryname);
-
-                var vendor = await _context.SellerModels
-                    .FirstOrDefaultAsync(v => v.FirstName == productDto.Vendorname);
-
-                if (category == null)
+                // Create the new product
+                var newProduct = new ProductModel
                 {
-                    // Handle the case where the category is not found
-                    throw new ArgumentException("You should select a valid category");
-                }
-                if (vendor == null)
-                {
-                    throw new ArgumentException("You should enter a registered vendor");
-                }
+                    Name = productDto.Name,
+                    Price = productDto.Price,
+                    Description = productDto.Description,
+                    Stock = productDto.Stock,
+                    Image = Convert.ToString(productDto.Image),
+                    Discount = productDto.Discount,
+                    CategoryID = category.CategoryID,
+                    VendorID = vendor.SellerID
+                };
 
-                try
-                {
-                    // Create the new product
-                    var newProduct = new ProductModel
-                    {
-                        Name = productDto.Name,
-                        Price = productDto.Price,
-                        Description = productDto.Description,
-                        Stock = productDto.Stock,
-                        Image = Convert.ToString(productDto.Image),
-                        Discount = productDto.Discount,
-                        CategoryID = category.CategoryID,
-                        VendorID = vendor.SellerID
-                    };
+                await _context.ProductModels.AddAsync(newProduct);
+                await _context.SaveChangesAsync();
 
-                    await _context.ProductModels.AddAsync(newProduct);
-                    await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
 
-                    await transaction.CommitAsync();
-
-                    return newProduct;
-                }
-                catch (Exception ex)
-                {
-                    await transaction.RollbackAsync();
-                    throw;
-                }
+                return newProduct;
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                throw;
             }
         }
     }

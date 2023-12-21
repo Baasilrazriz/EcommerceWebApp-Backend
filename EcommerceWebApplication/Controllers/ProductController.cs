@@ -13,11 +13,12 @@ namespace EcommerceWebApplication.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public  ProductService createProduct;
+        protected  ProductService createProduct;
         
-        public ProductController(ApplicationDbContext context)
+        public ProductController(ApplicationDbContext context, ProductService _createproduct)
         {
             _context = context;
+            createProduct = _createproduct;
         }
         [HttpGet]
         public async Task <IActionResult> GetProducts ()
