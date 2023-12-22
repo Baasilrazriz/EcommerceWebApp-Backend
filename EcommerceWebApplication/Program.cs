@@ -15,7 +15,7 @@ builder.Services.AddScoped<CreateSeller>();
 builder.Services.AddScoped<CreateUser>();
 builder.Services.AddScoped<CreateCategory>();
 builder.Services.AddScoped<ProductService>();
-
+builder.Services.AddScoped<UpdateProductService>(); 
 
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<UpdateAdminService>();

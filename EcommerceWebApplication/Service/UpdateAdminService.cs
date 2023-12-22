@@ -48,7 +48,7 @@ namespace EcommerceWebApplication.Service
                     admin.username = updatedAdminDto.username;
                     admin.password = hashedpassword;
                     admin.Image = updatedAdminDto.Image;
-
+                    await transaction.CommitAsync();
                 }
                 catch (Exception ex)
                 {
@@ -57,6 +57,7 @@ namespace EcommerceWebApplication.Service
             }
             try
             {
+                
                 await _dbContext.SaveChangesAsync();
                 return true; // Update successful
             }
