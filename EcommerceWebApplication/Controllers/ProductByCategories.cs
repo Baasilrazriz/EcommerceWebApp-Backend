@@ -22,7 +22,7 @@ namespace EcommerceWebApplication.Controllers
                       product => product.CategoryID,
                       category => category.CategoryID,
                       (product, category) => new { Product = product, Category = category })
-                .Where(pc => pc.Category.Name.Equals(categoryName, StringComparison.OrdinalIgnoreCase))
+                .Where(pc => pc.Category.Name.ToLower().Equals(categoryName.ToLower()))
                 .Select(pc => new
                 {
                     ProductId = pc.Product.ProductID,
@@ -44,6 +44,7 @@ namespace EcommerceWebApplication.Controllers
 
             return Ok(products);
         }
+
     }
 
 }

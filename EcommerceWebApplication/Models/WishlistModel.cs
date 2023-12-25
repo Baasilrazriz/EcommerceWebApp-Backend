@@ -7,7 +7,7 @@ namespace EcommerceWebApplication.Models
         [Key]
         public int Id { get; set; }
         public int ProductID { get; set; }
-        public string UserID { get; set; }
+        public int UserID { get; set; }
 
     }
 }

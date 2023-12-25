@@ -42,6 +42,24 @@ namespace EcommerceWebApplication.Controllers
                 return BadRequest(result);
             }
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRider(int id, [FromBody] RiderDto updatedRider)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            var updateRiderService = new UpdateRiderService(_context);
+            var isUpdateSuccessful = await updateRiderService.UpdateRiderAsync(id, updatedRider);
+
+            if (!isUpdateSuccessful)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRider(int id)
