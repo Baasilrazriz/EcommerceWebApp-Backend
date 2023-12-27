@@ -4,7 +4,7 @@ namespace EcommerceWebApplication.Models
 {
     public class RestaurantModel
     {
-        [Required]
+        [Key]
         public int RestaurantId { get; set;}
         public string RestaurantName { get; set;}
         public string Image {  get; set;}

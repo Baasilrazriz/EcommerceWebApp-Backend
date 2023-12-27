@@ -23,6 +23,8 @@ namespace EcommerceWebApplication.Data
         public DbSet<SellerModel> SellerModels { get; set; }
         public DbSet<RiderModel> RiderModels { get; set; }
         public DbSet<RestaurantModel> RestaurantModels { get;set; }
+        public DbSet<CuisineModel> CuisineModels { get; set; }
+        public DbSet<RestaurantCategoryModel> RestaurantCategoriesModels { get; set; }
     }
 
 }

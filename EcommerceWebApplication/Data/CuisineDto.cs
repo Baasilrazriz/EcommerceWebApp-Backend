@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace EcommerceWebApplication.Models
+﻿namespace EcommerceWebApplication.Data
 {
-    public class CuisineModel
+    public class CuisineDto
     {
-        [Key]
         public int CuisineId { get; set; }
         public int RestaurantId { get; set; }
         public string Cuisinetype { get; set; }
@@ -13,6 +10,5 @@ namespace EcommerceWebApplication.Models
         public double Price { get; set; }
         public string Description { get; set; }
         public int Stock { get; set; }
-
     }
 }
