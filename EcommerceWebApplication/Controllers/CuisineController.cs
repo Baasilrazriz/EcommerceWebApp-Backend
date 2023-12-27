@@ -42,6 +42,26 @@ namespace EcommerceWebApplication.Controllers
             }
             return BadRequest("Error occured");
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCuisines(int id, [FromBody] CuisineDto cuisineDto)
+        {
+            if (id == null || cuisineDto == null)
+            {
+                return BadRequest();
+            }
+            var updateCuisineService = new UpdateCuisines(_context);
+            var isUpdateSuccessful = await updateCuisineService.UpdateCuisinesAsync(id, cuisineDto);
+
+            if (!isUpdateSuccessful)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+
+        }
+
+
         [HttpDelete("{id}")]
         public async Task <IActionResult> DeleteCuisine (int id)
         {
