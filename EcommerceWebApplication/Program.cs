@@ -6,24 +6,28 @@ using Microsoft.Extensions.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddScoped<LoginService>();
-builder.Services.AddScoped<ForgotService>();
-builder.Services.AddScoped<CreateUser>();
 builder.Services.AddScoped<CreateAdmin>();
+builder.Services.AddScoped<CreateCategory>();
+builder.Services.AddScoped<CreateCuisines>();
+builder.Services.AddScoped<CreateRestaurant>();
 builder.Services.AddScoped<CreateRider>();
 builder.Services.AddScoped<CreateSeller>();
 builder.Services.AddScoped<CreateUser>();
-builder.Services.AddScoped<CreateCategory>();
-builder.Services.AddScoped<ProductService>();
-builder.Services.AddScoped<UpdateProductService>();
 builder.Services.AddScoped<CreateWishlist>();
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<ForgotService>();
+builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddScoped<LoginService>();
+builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<UpdateAdminService>();
+builder.Services.AddScoped<UpdateCuisines>();
+builder.Services.AddScoped<UpdateProductService>();
+builder.Services.AddScoped<UpdateRestaurantService>();
+builder.Services.AddScoped<UpdateRiderService>();
 builder.Services.AddScoped<UpdateSellerService>();
 builder.Services.AddScoped<UpdateUserService>();
 
 
-builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
