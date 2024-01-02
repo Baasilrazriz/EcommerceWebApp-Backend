@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EcommerceWebApplication.Models;
+using Microsoft.Extensions.FileProviders.Physical;
 
 namespace EcommerceWebApplication.Controllers
 {
@@ -38,6 +39,49 @@ namespace EcommerceWebApplication.Controllers
                 .ToListAsync();
 
             return Ok(cartItems);
+        }
+        [HttpPost]
+        public async Task<IActionResult> PostCartItem(CartItemDto cartItemDto)
+        {
+            if(cartItemDto == null)
+            {   
+                return BadRequest();
+            }
+            else
+            {
+                var cart = new CartModel
+                {
+                    ProductID = cartItemDto.ProductID,
+                    UserID = cartItemDto.UserID,
+                    Quantity = cartItemDto.Quantity,
+                };
+                _context.CartModels.Add(cart);
+                await _context.SaveChangesAsync();
+                return Ok(cart);
+            }
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCart(int id, CartItemDto cartItemDto)
+        {
+            if (cartItemDto == null)
+            {
+                return BadRequest();
+            }
+            var cart = await _context.CartModels.FindAsync(id);
+            try
+            {
+                if (cart != null)
+                {
+                    cart.Quantity = cartItemDto.Quantity;
+                    await _context.SaveChangesAsync();
+
+                }
+                return Ok(cart);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpDelete("{id}")]
