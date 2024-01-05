@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EcommerceWebApplication.Models;
 using Microsoft.Extensions.FileProviders.Physical;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace EcommerceWebApplication.Controllers
 {
@@ -43,8 +44,8 @@ namespace EcommerceWebApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> PostCartItem(CartItemDto cartItemDto)
         {
-            if(cartItemDto == null)
-            {   
+            if (cartItemDto == null)
+            {
                 return BadRequest();
             }
             else
@@ -101,6 +102,19 @@ namespace EcommerceWebApplication.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+        [HttpDelete("DeleteCartByCartID/{id}")]
+        public async Task<IActionResult> DeleteCartByCartID(int id)
+        {
+            var cart = await _context.CartModels.FindAsync(id);
+            if (cart != null)
+            {
+                _context.CartModels.Remove(cart);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            return NotFound();
         }
     }
 
