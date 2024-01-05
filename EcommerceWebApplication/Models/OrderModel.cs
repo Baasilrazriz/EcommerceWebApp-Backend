@@ -7,7 +7,8 @@ namespace EcommerceWebApplication.Models
         [Key]
         public int Id { get; set; }
         public int OrderID{ get; set; }
-        public int UserID { get; set; }
+        public int IdUser { get; set; }
+        public int IdProduct { get; set; }
         public string Status { get; set; }
         public DateTime OrderTime{ get; set;}
         public decimal GrandTotal { get; set;}

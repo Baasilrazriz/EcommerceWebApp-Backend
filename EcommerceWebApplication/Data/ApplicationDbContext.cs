@@ -18,13 +18,15 @@ namespace EcommerceWebApplication.Data
         public DbSet<CategoryModel> CategoryModels {  get; set; }
         public DbSet<ProductModel> ProductModels { get; set; }
         public DbSet<WishlistModel> WishlistModels { get; set; }
-        public DbSet<OrderModel> OrderModels { get; set; }
+        
         public DbSet<AdminModel> AdminModels { get; set; }
         public DbSet<SellerModel> SellerModels { get; set; }
         public DbSet<RiderModel> RiderModels { get; set; }
         public DbSet<RestaurantModel> RestaurantModels { get;set; }
         public DbSet<CuisineModel> CuisineModels { get; set; }
         public DbSet<RestaurantCategoryModel> RestaurantCategoriesModels { get; set; }
-    }
 
+        public DbSet<OrderModel> OrderModels { get; set; }
+    }
+        
 }
