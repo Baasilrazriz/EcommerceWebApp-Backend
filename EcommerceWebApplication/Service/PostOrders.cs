@@ -24,7 +24,7 @@ namespace EcommerceWebApplication.Service
                     {
                         OrderID = orderID,
                         IdUser = orderDto.IdUser,
-                        IdProduct = orderDto.IdProduct,
+                        ProductID = orderDto.ProductID,
                         Status = orderDto.Status,
                         OrderTime = Convert.ToDateTime(orderDto.OrderTime),
                         GrandTotal = orderDto.GrandTotal,

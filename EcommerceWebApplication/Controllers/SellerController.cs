@@ -23,10 +23,10 @@ namespace EcommerceWebApplication.Controllers
             var sellerdata = await _context.SellerModels.ToListAsync();
             return Ok(sellerdata);
         }
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetSellerById(int id)
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetSellerByUsername(string username)
         {
-            var seller = await _context.SellerModels.FindAsync(id);
+            var seller = await _context.SellerModels.FirstOrDefaultAsync(a => a.username == username);
 
             if (seller == null)
             {

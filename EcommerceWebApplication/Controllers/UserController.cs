@@ -25,10 +25,10 @@ namespace EcommerceWebApplication.Controllers
             var userdata = await _context.UserModels.ToListAsync();
             return Ok(userdata);
         }
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(int id)
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetUserByUsername(string username)
         {
-            var user = await _context.UserModels.FindAsync(id);
+            var user = await _context.UserModels.FirstOrDefaultAsync(a => a.username == username);
 
             if (user == null)
             {
@@ -53,7 +53,7 @@ namespace EcommerceWebApplication.Controllers
             }
             catch (Exception ex)
             {
-                // You can log the exception here
+                
                 return BadRequest("An error occurred while creating the user");
             }
         }

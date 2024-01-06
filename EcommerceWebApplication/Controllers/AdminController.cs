@@ -26,10 +26,10 @@ namespace EcommerceWebApplication.Controllers
             return Ok(admindata);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetAdminById(int id)
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetAdminByUsername(string username)
         {
-            var admin = await _context.AdminModels.FindAsync(id);
+            var admin = await _context.AdminModels.FirstOrDefaultAsync(a => a.username == username);
 
             if (admin == null)
             {

@@ -24,6 +24,18 @@ namespace EcommerceWebApplication.Controllers
             var riderdata = await _context.RiderModels.ToListAsync();
             return Ok(riderdata);
         }
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetRiderByUsername(string username)
+        {
+            var rider = await _context.RiderModels.FirstOrDefaultAsync(a => a.username == username);
+
+            if (rider == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(rider);
+        }
         [HttpPost]
         public async Task<IActionResult> CreateRider([FromBody] RiderDto riderDto)
         {

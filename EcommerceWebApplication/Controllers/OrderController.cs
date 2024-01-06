@@ -52,7 +52,19 @@ namespace EcommerceWebApplication.Controllers
             }
             return BadRequest();
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UdpateOrder(int id, OrderDto orderDto)
+        {
+            var order = await _context.OrderModels.FindAsync(id);
+            if (order != null)
+            {
+                order.Status = orderDto.Status;
+                await _context.SaveChangesAsync();
+                return Ok(order);
+            }
+            return BadRequest();
 
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
