@@ -28,6 +28,7 @@ builder.Services.AddScoped<UpdateSellerService>();
 builder.Services.AddScoped<UpdateUserService>();
 builder.Services.AddScoped<PostOrders>();
 builder.Services.AddScoped<RandomNumberGenerator>();
+builder.Services.AddScoped<CreateRestaurantCart>();
 
 
 builder.Services.AddControllers();
