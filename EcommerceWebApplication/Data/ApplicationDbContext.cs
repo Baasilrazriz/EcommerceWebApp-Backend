@@ -27,6 +27,7 @@ namespace EcommerceWebApplication.Data
         public DbSet<RestaurantCategoryModel> RestaurantCategoriesModels { get; set; }
 
         public DbSet<OrderModel> OrderModels { get; set; }
+        public DbSet<RestaurantCartModel> RestaurantCartModels { get; set; }
     }
         
 }
