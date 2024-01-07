@@ -64,6 +64,30 @@ namespace EcommerceWebApplication.Controllers
             }
             return Ok(cart);
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRestaurantCart(int id, RestaurantCartDto restaurantCartDto)
+        {
+            if (restaurantCartDto == null)
+            {
+                return BadRequest();
+            }
+            var cart = await _context.RestaurantCartModels.FindAsync(id);
+            try
+            {
+                if (cart != null)
+                {
+                    cart.Quantity = restaurantCartDto.Quantity;
+                    await _context.SaveChangesAsync();
+
+                }
+                return Ok(cart);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpDelete("delete-cart/{cartid}")]
         public async Task<IActionResult> DeleteByCartID(int cartid)
         {
