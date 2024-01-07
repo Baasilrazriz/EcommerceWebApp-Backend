@@ -19,7 +19,7 @@ namespace EcommerceWebApplication.Service
                 {
                     var model = new CuisineModel
                     {
-                        CuisineId = cuisineDto.CuisineId,
+                      
                         RestaurantId = cuisineDto.RestaurantId,
                         Cuisinetype = cuisineDto.Cuisinetype,
                         CuisineName = cuisineDto.CuisineName,

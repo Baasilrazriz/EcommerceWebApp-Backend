@@ -13,15 +13,16 @@ namespace EcommerceWebApplication.Controllers
     public class CuisineController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public CreateCuisines createCuisines;
-        public CuisineController(ApplicationDbContext context)
+        public CreateCuisines _createCuisines;
+        public CuisineController(ApplicationDbContext context, CreateCuisines createCuisines)
         {
             _context = context;
+            _createCuisines = createCuisines;
         }
         [HttpGet]
         public async Task<IActionResult> GetCuisines()
         {
-            var cuisines = _context.CuisineModels.ToListAsync();
+            var cuisines = await _context.CuisineModels.ToListAsync();
             if (cuisines != null)
             {
                 return Ok(cuisines);
@@ -35,7 +36,7 @@ namespace EcommerceWebApplication.Controllers
             {
                 return NoContent();
             }
-            var create = await createCuisines.CreateCuisinesAsync(cuisineDto);
+            var create = await _createCuisines.CreateCuisinesAsync(cuisineDto);
             if (create != null)
             {
                 return Ok(create);

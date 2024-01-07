@@ -22,20 +22,21 @@ namespace EcommerceWebApplication.Service
             {
                 try
                 {
-                    res.Cuisinetype= cuisineDto.Cuisinetype;
+                    res.Cuisinetype = cuisineDto.Cuisinetype;
                     res.CuisineName = cuisineDto.CuisineName;
                     res.CuisineImage = Convert.ToString(cuisineDto.CuisineImage);
                     res.Price = cuisineDto.Price;
                     res.Description = cuisineDto.Description;
-                    res.Stock= cuisineDto.Stock;
+                    res.Stock = cuisineDto.Stock;
                 }
                 catch (Exception)
                 {
                     transaction.Rollback();
                 }
+            }
                 try
                 {
-                    await _context.SaveChangesAsync();
+                   await _context.SaveChangesAsync();
                     return true;
                 }
                 catch (DbUpdateConcurrencyException)
@@ -49,7 +50,8 @@ namespace EcommerceWebApplication.Service
                         throw;
                     }
                 }
-            }
+            
+            
         }
         private bool CuisineExists(int id)
         {

@@ -2,7 +2,7 @@
 {
     public class CuisineDto
     {
-        public int CuisineId { get; set; }
+     
         public int RestaurantId { get; set; }
         public string Cuisinetype { get; set; }
         public string CuisineName { get; set; }
