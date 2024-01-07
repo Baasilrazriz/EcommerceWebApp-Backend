@@ -33,12 +33,12 @@ namespace EcommerceWebApplication.Service
                 }
                 catch (SmtpException ex)
                 {
-                    // Handle SMTP exceptions here
+                  
                     throw new InvalidOperationException("Error sending email.", ex);
                 }
                 catch (Exception ex)
                 {
-                    // Handle other exceptions here
+                  
                     throw new InvalidOperationException("An error occurred.", ex);
                 }
             }
