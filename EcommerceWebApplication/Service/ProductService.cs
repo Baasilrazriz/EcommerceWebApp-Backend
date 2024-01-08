@@ -19,7 +19,7 @@ namespace EcommerceWebApplication.Service
         public async Task<ProductModel> CreateProductAsync(ProductDto productDto)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
-            // Find the category by name
+            
             var category = await _context.CategoryModels
                            .FirstOrDefaultAsync(c => c.Name == productDto.Categoryname);
 
@@ -28,7 +28,7 @@ namespace EcommerceWebApplication.Service
 
             if (category == null)
             {
-                // Handle the case where the category is not found
+                
                 throw new ArgumentException("You should select a valid category");
             }
             if (vendor == null)
@@ -38,7 +38,7 @@ namespace EcommerceWebApplication.Service
 
             try
             {
-                // Create the new product
+                
                 var newProduct = new ProductModel
                 {
                     Name = productDto.Name,

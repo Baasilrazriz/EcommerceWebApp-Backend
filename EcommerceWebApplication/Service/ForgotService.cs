@@ -40,7 +40,7 @@ namespace EcommerceWebApplication.Service
         {
             if (!string.IsNullOrEmpty(username))
             {
-                // Fetch the user's email from the database using the provided username
+              
                 var user = await _context.ApplicationUsers
                     .Where(u => u.UserName == username)
                     .Select(u => new { u.Email })
@@ -48,15 +48,13 @@ namespace EcommerceWebApplication.Service
 
                 if (user != null && !string.IsNullOrEmpty(user.Email))
                 {
-                    // Generate a random OTP
                     var otp = GenerateRandomOTP();
 
-                    // Send the OTP to the user's email
                     await SendOTPViaEmail(user.Email, otp);
                     
                 }
             }
-            // Return false if user does not exist or username is null/empty
+     
             return true;
         }
         private string GenerateRandomOTP()
@@ -98,12 +96,12 @@ namespace EcommerceWebApplication.Service
                 }
                 catch (SmtpException ex)
                 {
-                    // Handle SMTP exceptions here
+                    
                     throw new InvalidOperationException("Error sending email.", ex);
                 }
                 catch (Exception ex)
                 {
-                    // Handle other exceptions here
+                    
                     throw new InvalidOperationException("An error occurred.", ex);
                 }
             }
