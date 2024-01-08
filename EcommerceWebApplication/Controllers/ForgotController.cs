@@ -2,6 +2,7 @@
 using EcommerceWebApplication.Service;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceWebApplication.Controllers
 {
@@ -18,26 +19,33 @@ namespace EcommerceWebApplication.Controllers
             _context = context;
             _service = service;
         }
-        [HttpPost("ForgotController")]
-        public async Task<IActionResult> ForgotPassword([FromBody] ForgotDto forgotDto)
+        [HttpPost("ValidateUsername")]
+        public async Task <IActionResult> ValidateUsername([FromBody] ForgotDto forgotDto)
         {
-            // Check if the username exists in the database
-            var userExists = await _service.DoesUserExist(forgotDto.Username);
-            if (!userExists)
+            var userExists = await _service.GetUserByUsername(forgotDto.Username);
+
+            if (userExists == null)
             {
                 return NotFound(new { Message = "User not found." });
             }
+            return Ok(userExists);
+        }
 
-            // If user exists, initiate the password recovery process
-            var recoveryResult = await _service.InitiatePasswordRecovery(forgotDto.Username);
+        [HttpPost("InititateRecovery")]
+        public async Task<IActionResult> ForgotPassword([FromBody] RecoveryRequestDto recoveryRequest)
+        {
+            var recoveryResult = await _service.InitiatePasswordRecovery(recoveryRequest.Username, recoveryRequest.Email);
+
             if (recoveryResult)
             {
                 return Ok(new { Message = "Password recovery initiated. Please check your email for further instructions." });
             }
-
-            // If there was an error during the password recovery initiation
-            return StatusCode(500, new { Message = "An error occurred while initiating password recovery." });
+            else
+            {
+                return BadRequest(new { Message = "Invalid username or email." });
+            }
         }
+
     }
 
 

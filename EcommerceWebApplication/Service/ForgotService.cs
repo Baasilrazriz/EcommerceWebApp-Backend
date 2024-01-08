@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
 using System.Net;
+using EcommerceWebApplication.Models;
 
 namespace EcommerceWebApplication.Service
 {
@@ -20,43 +21,38 @@ namespace EcommerceWebApplication.Service
         {
             _context = context;
         }
-        public async Task<bool> DoesUserExist(string username)
+        public async Task<ApplicationUsers> GetUserByUsername(string username)
         {
-            if (username == null)
+            if (string.IsNullOrEmpty(username))
             {
-                throw new ArgumentNullException(username);
+                throw new ArgumentNullException(nameof(username));
             }
-            var validuser = await _context.ApplicationUsers
-             .FromSqlRaw("SELECT * FROM ApplicationUsers WHERE Username = {0}", username)
-             .FirstOrDefaultAsync();
-            if(validuser == null)
-            {
-                throw new ArgumentException("User doesnot exist");
-            }
-            return true;
-           
+
+            var user = await _context.ApplicationUsers
+                        .FirstOrDefaultAsync(u => u.UserName == username);
+
+            return user; 
         }
-        public async Task<bool> InitiatePasswordRecovery(string username)
+
+        public async Task<bool> InitiatePasswordRecovery(string username, string email)
         {
-            if (!string.IsNullOrEmpty(username))
+            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(email))
             {
-              
                 var user = await _context.ApplicationUsers
-                    .Where(u => u.UserName == username)
-                    .Select(u => new { u.Email })
+                    .Where(u => u.UserName == username && u.Email == email)
                     .FirstOrDefaultAsync();
 
-                if (user != null && !string.IsNullOrEmpty(user.Email))
+                if (user != null)
                 {
                     var otp = GenerateRandomOTP();
-
                     await SendOTPViaEmail(user.Email, otp);
-                    
+                    return true;
                 }
             }
-     
-            return true;
+
+            return false;
         }
+
         private string GenerateRandomOTP()
         {
             var random = new Random();

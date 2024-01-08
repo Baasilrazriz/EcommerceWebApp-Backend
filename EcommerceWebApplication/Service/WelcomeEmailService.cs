@@ -45,7 +45,7 @@ namespace EcommerceWebApplication.Service
         }
         private string GetEmailBody(string email)
         {
-            ]
+            
             var htmlTemplate = @"
         <html>
             <body>
