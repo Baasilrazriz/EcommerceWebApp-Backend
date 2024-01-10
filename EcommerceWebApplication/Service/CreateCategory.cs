@@ -19,7 +19,8 @@ namespace EcommerceWebApplication.Service
                 {
                     var category = new CategoryModel
                     {
-                        Name = categoryDto.Name
+                        Name = categoryDto.Name,
+                        CategoryImage = categoryDto.CategoryImage
                     };
                     await _context.CategoryModels.AddAsync(category);
                     await _context.SaveChangesAsync();

@@ -15,12 +15,14 @@ public class UpdateUserService
     public async Task<bool> UpdateUserAsync(int userId, UserDto updatedUserDto)
     {
         // Retrieve the user by ID from the database
-        var user = await _dbContext.UserModels.FindAsync(userId);
+        var user = await _dbContext.UserModels.FindAsync(userId); 
+        var userauth = await _dbContext.ApplicationUsers.FirstOrDefaultAsync(u => u.UserName == user.username);
 
-        if (user == null)
+        if (user == null || userauth == null)
         {
             return false; // User not found
         }
+
         using (var transaction = await _dbContext.Database.BeginTransactionAsync())
         {
             try
@@ -28,8 +30,6 @@ public class UpdateUserService
                 string password = updatedUserDto.password;
                 string hashedPassword = HashingUtilities.HashPassword(password);
                 
-
-                // Update the user's properties with the values from updatedUserDto
                 user.FirstName = updatedUserDto.FirstName;
                 user.LastName = updatedUserDto.LastName;
                 user.address = updatedUserDto.address;
@@ -43,29 +43,22 @@ public class UpdateUserService
                 user.username = updatedUserDto.username;
                 user.password = updatedUserDto.password;
                 user.image = Convert.ToString(updatedUserDto.image);
+                userauth.Email= updatedUserDto.email;
+                userauth.UserName = updatedUserDto.username;
+                userauth.Password = hashedPassword;
+
+                _dbContext.Entry(userauth).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+                transaction.Commit();
+                return true;
             }
             catch
             {
                 transaction.Rollback();
-            }
-        }
-
-        try
-        {
-            await _dbContext.SaveChangesAsync();
-            return true; // Update successful
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!UserExists(userId))
-            {
-                return false; // User not found
-            }
-            else
-            {
                 throw;
             }
         }
+
     }
 
     private bool UserExists(int userId)

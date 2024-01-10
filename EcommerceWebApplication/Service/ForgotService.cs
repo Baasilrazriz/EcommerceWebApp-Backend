@@ -15,7 +15,8 @@ namespace EcommerceWebApplication.Service
         protected EmailService _emailService;
         private const string FromEmail = "baasil86805@gmail.com";
         private const string FromEmailPassword = "jimf vfih dzee cvfn"; // Use App Password if 2FA is enabled
-
+        public static Dictionary<string, (string OTP, DateTime Timestamp)> _otpStore =
+     new Dictionary<string, (string, DateTime)>(StringComparer.OrdinalIgnoreCase);
 
         public ForgotService(ApplicationDbContext context)
         {
@@ -45,7 +46,7 @@ namespace EcommerceWebApplication.Service
                 if (user != null)
                 {
                     var otp = GenerateRandomOTP();
-                    await SendOTPViaEmail(user.Email, otp);
+                    await SendOTPViaEmail(user.Email, otp, user.UserName);
                     return true;
                 }
             }
@@ -59,7 +60,7 @@ namespace EcommerceWebApplication.Service
            
             return random.Next(1000, 9999).ToString();
         }
-        private async Task<bool> SendOTPViaEmail(string email, string otp)
+        private async Task<bool> SendOTPViaEmail(string email, string otp, string username)
         {
             
             if(email==null && otp ==null)
@@ -101,11 +102,23 @@ namespace EcommerceWebApplication.Service
                     throw new InvalidOperationException("An error occurred.", ex);
                 }
             }
-      
+            _otpStore[username] = (otp, DateTime.UtcNow);
             return true;
                
             
             
         }
+        public bool ValidateOTP(string username, string inputOtp)
+        {
+            if (_otpStore.TryGetValue(username, out var otpInfo))
+            {
+                bool isValid = otpInfo.OTP == inputOtp && otpInfo.Timestamp.AddMinutes(2) > DateTime.UtcNow;
+                _otpStore.Remove(username);
+                return isValid;
+            }
+
+            return false;
+        }
+
     }
 }

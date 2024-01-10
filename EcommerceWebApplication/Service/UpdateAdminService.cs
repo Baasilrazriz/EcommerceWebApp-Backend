@@ -16,8 +16,9 @@ namespace EcommerceWebApplication.Service
         {
             // Retrieve the admin by ID from the database
             var admin = await _dbContext.AdminModels.FindAsync(adminId);
+            var adminauth = await _dbContext.ApplicationUsers.FirstOrDefaultAsync(u => u.UserName == admin.username);
 
-            if (admin == null)
+            if (admin == null && adminauth == null)
             {
                 return false; // Admin not found
             }
@@ -27,11 +28,7 @@ namespace EcommerceWebApplication.Service
                 {
                     string password = updatedAdminDto.password;
                     string hashedpassword = HashingUtilities.HashPassword(password);
-                    //byte[] imageBytes = null;
-                    //if (!string.IsNullOrWhiteSpace(Convert.ToBase64String(updatedAdminDto.Image)))
-                    //{
-                    //    imageBytes = Convert.FromBase64String(Convert.ToBase64String(updatedAdminDto.Image));
-                    //}
+                   
 
 
                     admin.FirstName = updatedAdminDto.FirstName;
@@ -48,30 +45,23 @@ namespace EcommerceWebApplication.Service
                     admin.username = updatedAdminDto.username;
                     admin.password = hashedpassword;
                     admin.Image = updatedAdminDto.Image;
-                    await transaction.CommitAsync();
+
+                    
+                    adminauth.Password = hashedpassword;
+                    adminauth.Email = updatedAdminDto.Email;
+                    _dbContext.Entry(adminauth).State = EntityState.Modified;
+                    await _dbContext.SaveChangesAsync();
+                    transaction.Commit();
+                    return true;
+                    
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                }
-            }
-            try
-            {
-                
-                await _dbContext.SaveChangesAsync();
-                return true; // Update successful
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AdminExists(adminId))
-                {
-                    return false; // Admin not found
-                }
-                else
-                {
                     throw;
                 }
             }
+           
         }
 
         private bool AdminExists(int adminId)

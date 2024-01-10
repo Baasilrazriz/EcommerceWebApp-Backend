@@ -15,6 +15,7 @@ namespace EcommerceWebApplication.Service
         {
             // Retrieve the seller by ID from the database
             var seller = await _dbContext.SellerModels.FindAsync(SellerID);
+            var sellerauth = await _dbContext.ApplicationUsers.FirstOrDefaultAsync(u => u.UserName == seller.username);
 
             if (seller == null)
             {
@@ -43,6 +44,13 @@ namespace EcommerceWebApplication.Service
                     seller.username = updatedSellerDto.username;
                     seller.password = hashedPassword;
                     seller.Image = Convert.ToString(updatedSellerDto.Image);
+                    sellerauth.Password = hashedPassword;
+                    sellerauth.Email = updatedSellerDto.Email;
+
+                    _dbContext.Entry(sellerauth).State = EntityState.Modified;
+                    await _dbContext.SaveChangesAsync();
+                    transaction.Commit();
+                    return true;
 
                 }
                 catch (Exception ex)

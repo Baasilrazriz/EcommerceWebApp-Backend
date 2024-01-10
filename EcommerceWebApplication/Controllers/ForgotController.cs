@@ -46,6 +46,22 @@ namespace EcommerceWebApplication.Controllers
             }
         }
 
+        [HttpPost("ValidateOTP")]
+        public IActionResult ValidateOTP([FromBody] OTPValidationDto otpValidation)
+        {
+            var isValid = _service.ValidateOTP(otpValidation.Username, otpValidation.OTP);
+
+            if (isValid)
+            {
+                return Ok(new { Message = "OTP is valid." });
+            }
+            else
+            {
+                return BadRequest(new { Message = "Invalid or expired OTP." });
+            }
+        }
+
+
     }
 
 

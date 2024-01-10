@@ -12,8 +12,10 @@ namespace EcommerceWebApplication.Service
         }
         public async Task<bool> UpdateRiderAsync(int RiderID, RiderDto riderDto)
         {
-            // Retrieve the seller by ID from the database
+            
             var rider = await _context.RiderModels.FindAsync(RiderID);
+            var riderauth = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.UserName == rider.username);
+
 
             if (rider == null)
             {
@@ -41,8 +43,15 @@ namespace EcommerceWebApplication.Service
                     rider.username = riderDto.username;
                     rider.password = hashedPassword;
                     rider.Image = Convert.ToString(riderDto.Image);
+
+                    riderauth.Email = riderDto.Email;
+                    riderauth.Password = hashedPassword;
+
+                    _context.Entry(riderauth).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                    transaction.Commit();
+                    return true;
                     
-                    await transaction.CommitAsync();
                 }
                 catch (Exception ex)
                 {
@@ -52,13 +61,13 @@ namespace EcommerceWebApplication.Service
             try
             {
                 await _context.SaveChangesAsync();
-                return true; // Update successful
+                return true; 
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!RiderExists(RiderID))
                 {
-                    return false; // Admin not found
+                    return false; 
                 }
                 else
                 {
