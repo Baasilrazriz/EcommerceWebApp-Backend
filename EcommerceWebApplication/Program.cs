@@ -30,6 +30,7 @@ builder.Services.AddScoped<PostOrders>();
 builder.Services.AddScoped<RandomNumberGenerator>();
 builder.Services.AddScoped<CreateRestaurantCart>();
 builder.Services.AddTransient<IWelcomeEmailService, WelcomeEmailService>();
+builder.Services.AddScoped<CreateAuthService>();
 
 
 builder.Services.AddControllers();
