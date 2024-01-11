@@ -29,6 +29,8 @@ namespace EcommerceWebApplication.Data
         public DbSet<OrderModel> OrderModels { get; set; }
         public DbSet<RestaurantCartModel> RestaurantCartModels { get; set; }
         public DbSet<AuthModelGmail> AuthModelGmails { get; set; }
+        public DbSet<RiderNotification> RiderNotifications { get; set; }
     }
-        
 }
+        
+

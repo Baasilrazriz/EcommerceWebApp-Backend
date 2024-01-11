@@ -13,10 +13,12 @@ namespace EcommerceWebApplication.Controllers
     {
         private readonly ApplicationDbContext _context;
         protected CreateRider _createRider;
-        public RiderController(ApplicationDbContext context, CreateRider createRider)
+        protected NotificationService _notificationService;
+        public RiderController(ApplicationDbContext context, CreateRider createRider, NotificationService notificationService)
         {
             _context = context;
             _createRider = createRider;
+            _notificationService = notificationService;
         }
         [HttpGet]
         public async Task<IActionResult> GetRider()
@@ -96,6 +98,20 @@ namespace EcommerceWebApplication.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+        [HttpPost("respond-to-order/{notificationId}")]
+        public async Task<IActionResult> RiderRespondsToOrder(int notificationId, [FromBody] bool accept)
+        {
+            var result = await _notificationService.RiderRespondsToOrder(notificationId, accept);
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            // Notify the user based on the rider's response
+            // This could be done via SignalR for real-time notifications or through another method
+
+            return Ok();
         }
     }
 }

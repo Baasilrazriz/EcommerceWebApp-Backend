@@ -1,5 +1,6 @@
 ﻿using EcommerceWebApplication.Data;
 using EcommerceWebApplication.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 
 namespace EcommerceWebApplication.Service
@@ -7,6 +8,7 @@ namespace EcommerceWebApplication.Service
     public class PostOrders
     {
         private readonly ApplicationDbContext _context;
+        public NotificationService _notificationservice;
         public PostOrders(ApplicationDbContext context)
         {
             _context = context;
@@ -36,6 +38,11 @@ namespace EcommerceWebApplication.Service
                     await _context.OrderModels.AddAsync(order);
                     await _context.SaveChangesAsync();
 
+                    int assignedRiderId = await GetRiderIdForOrder(order);
+                    // Send notification to the rider
+                    await _notificationservice.CreateNotificationForRider(order.OrderID, assignedRiderId, "New Order Available");
+
+
                     await transaction.CommitAsync();
 
                     return order;
@@ -47,5 +54,14 @@ namespace EcommerceWebApplication.Service
                 }
             }
         }
+        private async Task<int> GetRiderIdForOrder(OrderModel order)
+        {
+            var rider = await _context.RiderModels.FirstOrDefaultAsync(u => u.RiderID == 1);
+
+            // Assuming that RiderID is an integer property of RiderModel that represents the rider's ID.
+            // Make sure to replace 'RiderID' with the actual property name of RiderModel that holds the rider's ID.
+            return rider != null ? rider.RiderID : 0; // Or however you'd like to handle the case when the rider is not found
+        }
+
     }
 }

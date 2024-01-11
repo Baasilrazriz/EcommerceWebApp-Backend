@@ -31,6 +31,7 @@ builder.Services.AddScoped<RandomNumberGenerator>();
 builder.Services.AddScoped<CreateRestaurantCart>();
 builder.Services.AddTransient<IWelcomeEmailService, WelcomeEmailService>();
 builder.Services.AddScoped<CreateAuthService>();
+builder.Services.AddScoped<NotificationService>();
 
 
 builder.Services.AddControllers();
